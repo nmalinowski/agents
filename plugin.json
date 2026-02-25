@@ -1,0 +1,12 @@
+{
+  "name": "agents",
+  "version": "1.0.0",
+  "description": "Comprehensive multi-domain plugin collection with reusable skills, agents, and commands.",
+  "author": {
+    "name": "nmalinowski"
+  },
+  "license": "MIT",
+  "agents": "plugins/",
+  "skills": "plugins/",
+  "commands": "plugins/"
+}
