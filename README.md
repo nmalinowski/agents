@@ -1,4 +1,4 @@
-# Claude Code Plugins: Orchestration and Automation
+# AI Agent Plugins: Claude Code & Copilot CLI
 
 > **⚡ Updated for Opus 4.6, Sonnet 4.6 & Haiku 4.5** — Three-tier model strategy for optimal performance
 
@@ -6,7 +6,9 @@
 
 > **🎯 Agent Skills Enabled** — 146 specialized skills extend Claude's capabilities across plugins with progressive disclosure
 
-A comprehensive production-ready system combining **112 specialized AI agents**, **16 multi-agent workflow orchestrators**, **146 agent skills**, and **79 development tools** organized into **72 focused, single-purpose plugins** for [Claude Code](https://docs.claude.com/en/docs/claude-code/overview).
+> **🔀 Dual Platform Support** — This repository works with both [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) and [GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli). Install plugins from either platform using the same marketplace.
+
+A comprehensive production-ready system combining **112 specialized AI agents**, **16 multi-agent workflow orchestrators**, **146 agent skills**, and **79 development tools** organized into **72 focused, single-purpose plugins** for [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) and [GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli).
 
 ## Overview
 
@@ -41,7 +43,9 @@ Each plugin is completely isolated with its own agents, commands, and skills:
 
 ## Quick Start
 
-### Step 1: Add the Marketplace
+### Claude Code
+
+#### Step 1: Add the Marketplace
 
 Add this marketplace to Claude Code:
 
@@ -51,7 +55,7 @@ Add this marketplace to Claude Code:
 
 This makes all 72 plugins available for installation, but **does not load any agents or tools** into your context.
 
-### Step 2: Install Plugins
+#### Step 2: Install Plugins
 
 Browse available plugins:
 
@@ -81,6 +85,26 @@ Install the plugins you need:
 
 Each installed plugin loads **only its specific agents, commands, and skills** into Claude's context.
 
+### GitHub Copilot CLI
+
+#### Step 1: Add the Marketplace
+
+Add this marketplace to Copilot CLI:
+
+```bash
+copilot plugin marketplace add wshobson/agents
+```
+
+#### Step 2: Install Plugins
+
+Install the plugins you need:
+
+```bash
+copilot plugin install python-development@wshobson-agents
+```
+
+Copilot CLI supports [17 models](#three-tier-model-strategy) including Claude, GPT, and Gemini families — choose the best model for your workflow.
+
 ### Plugins vs Agents
 
 You install **plugins**, which bundle agents:
@@ -96,15 +120,18 @@ You install **plugins**, which bundle agents:
 # ❌ Wrong - can't install agents directly
 /plugin install typescript-pro
 
-# ✅ Right - install the plugin
+# ✅ Right - install the plugin (Claude Code)
 /plugin install javascript-typescript@claude-code-workflows
+
+# ✅ Right - install the plugin (Copilot CLI)
+copilot plugin install javascript-typescript@wshobson-agents
 ```
 
 ### Troubleshooting
 
-**"Plugin not found"** → Use plugin names, not agent names. Add `@claude-code-workflows` suffix.
+**"Plugin not found"** → Use plugin names, not agent names. For Claude Code, add `@claude-code-workflows` suffix. For Copilot CLI, add `@wshobson-agents` suffix.
 
-**Plugins not loading** → Clear cache and reinstall:
+**Plugins not loading (Claude Code)** → Clear cache and reinstall:
 
 ```bash
 rm -rf ~/.claude/plugins/cache/claude-code-workflows && rm ~/.claude/plugins/installed_plugins.json
@@ -201,12 +228,12 @@ Specialized knowledge packages following Anthropic's progressive disclosure arch
 
 Strategic model assignment for optimal performance and cost:
 
-| Tier       | Model    | Agents | Use Case                                                                                        |
-| ---------- | -------- | ------ | ----------------------------------------------------------------------------------------------- |
-| **Tier 1** | Opus 4.6 | 42     | Critical architecture, security, ALL code review, production coding (language pros, frameworks) |
-| **Tier 2** | Inherit  | 42     | Complex tasks - user chooses model (AI/ML, backend, frontend/mobile, specialized)               |
-| **Tier 3** | Sonnet   | 51     | Support with intelligence (docs, testing, debugging, network, API docs, DX, legacy, payments)   |
-| **Tier 4** | Haiku    | 18     | Fast operational tasks (SEO, deployment, simple docs, sales, content, search)                   |
+| Tier       | Claude Code Model | Copilot CLI Model | Agents | Use Case                                                                                        |
+| ---------- | ----------------- | ----------------- | ------ | ----------------------------------------------------------------------------------------------- |
+| **Tier 1** | Opus 4.6          | claude-opus-4.6   | 42     | Critical architecture, security, ALL code review, production coding (language pros, frameworks) |
+| **Tier 2** | Inherit           | Session default   | 42     | Complex tasks - user chooses model (AI/ML, backend, frontend/mobile, specialized)               |
+| **Tier 3** | Sonnet            | claude-sonnet-4.6 | 51     | Support with intelligence (docs, testing, debugging, network, API docs, DX, legacy, payments)   |
+| **Tier 4** | Haiku             | claude-haiku-4.5  | 18     | Fast operational tasks (SEO, deployment, simple docs, sales, content, search)                    |
 
 **Why Opus 4.6 for Critical Agents?**
 
@@ -214,13 +241,39 @@ Strategic model assignment for optimal performance and cost:
 - 65% fewer tokens for complex tasks
 - Best for architecture decisions and security audits
 
-**Tier 2 Flexibility (`inherit`):**
+**Tier 2 Flexibility (`inherit` / session default):**
 Agents marked `inherit` use your session's default model, letting you balance cost and capability:
 
-- Set via `claude --model opus` or `claude --model sonnet` when starting a session
+- **Claude Code**: Set via `claude --model opus` or `claude --model sonnet` when starting a session
+- **Copilot CLI**: Choose from 17 available models at session start
 - Falls back to Sonnet 4.6 if no default specified
 - Perfect for frontend/mobile developers who want cost control
 - AI/ML engineers can choose Opus for complex model work
+
+<details>
+<summary><strong>All 17 Copilot CLI Models</strong></summary>
+
+| Model | Type |
+| ----- | ---- |
+| claude-haiku-4.5 | Fast/Cheap |
+| claude-opus-4.5 | Premium |
+| claude-opus-4.6 | Premium |
+| claude-opus-4.6-fast | Premium |
+| claude-sonnet-4 | Standard |
+| claude-sonnet-4.5 | Standard |
+| claude-sonnet-4.6 | Standard |
+| gemini-3-pro-preview | Standard |
+| gpt-4.1 | Fast/Cheap |
+| gpt-5-mini | Fast/Cheap |
+| gpt-5.1 | Standard |
+| gpt-5.1-codex | Standard |
+| gpt-5.1-codex-max | Standard |
+| gpt-5.1-codex-mini | Fast/Cheap |
+| gpt-5.2 | Standard |
+| gpt-5.2-codex | Standard |
+| gpt-5.3-codex | Standard |
+
+</details>
 
 **Cost Considerations:**
 
@@ -328,16 +381,18 @@ Three-tier architecture for token efficiency:
 ### Repository Structure
 
 ```
-claude-agents/
-├── .claude-plugin/
+agents/
+├── .claude-plugin/                # Claude Code marketplace
+│   └── marketplace.json          # 72 plugins
+├── .github/plugin/                # Copilot CLI marketplace
 │   └── marketplace.json          # 72 plugins
 ├── plugins/
 │   ├── python-development/
-│   │   ├── agents/               # 3 Python experts
+│   │   ├── agents/               # 3 Python experts (.agent.md)
 │   │   ├── commands/             # Scaffolding tool
 │   │   └── skills/               # 5 specialized skills
 │   ├── kubernetes-operations/
-│   │   ├── agents/               # K8s architect
+│   │   ├── agents/               # K8s architect (.agent.md)
 │   │   ├── commands/             # Deployment tools
 │   │   └── skills/               # 4 K8s skills
 │   └── ... (65 more plugins)
@@ -352,13 +407,13 @@ claude-agents/
 To add new agents, skills, or commands:
 
 1. Identify or create the appropriate plugin directory in `plugins/`
-2. Create `.md` files in the appropriate subdirectory:
+2. Create `.agent.md` files in the appropriate subdirectory:
    - `agents/` - For specialized agents
    - `commands/` - For tools and workflows
    - `skills/` - For modular knowledge packages
 3. Follow naming conventions (lowercase, hyphen-separated)
 4. Write clear activation criteria and comprehensive content
-5. Update the plugin definition in `.claude-plugin/marketplace.json`
+5. Update the plugin definition in `.claude-plugin/marketplace.json` and `.github/plugin/marketplace.json`
 
 See [Architecture Documentation](docs/architecture.md) for detailed guidelines.
 
@@ -366,11 +421,18 @@ See [Architecture Documentation](docs/architecture.md) for detailed guidelines.
 
 ### Documentation
 
+**Claude Code:**
+
 - [Claude Code Documentation](https://docs.claude.com/en/docs/claude-code/overview)
 - [Plugins Guide](https://docs.claude.com/en/docs/claude-code/plugins)
 - [Subagents Guide](https://docs.claude.com/en/docs/claude-code/sub-agents)
 - [Agent Skills Guide](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
 - [Slash Commands Reference](https://docs.claude.com/en/docs/claude-code/slash-commands)
+
+**GitHub Copilot CLI:**
+
+- [Copilot CLI Documentation](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli)
+- [Copilot CLI Plugins](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-creating)
 
 ### This Repository
 

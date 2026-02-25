@@ -225,6 +225,29 @@ Complete reference for all **100 specialized AI agents** organized by category w
 
 Agents are assigned to specific Claude models based on task complexity and computational requirements.
 
+### Claude Code vs Copilot CLI Model Names
+
+When running in **GitHub Copilot CLI**, the short model names used in Claude Code map to full model identifiers:
+
+| Claude Code | Copilot CLI          | Tier      |
+| ----------- | -------------------- | --------- |
+| `opus`      | `claude-opus-4.6`    | Tier 1    |
+| `sonnet`    | `claude-sonnet-4.6`  | Tier 1    |
+| `haiku`     | `claude-haiku-4.5`   | Tier 1    |
+| `inherit`   | *(field omitted)*    | Tier 2    |
+
+**Tier 2 ("inherit") agents** do not specify a model field. In Copilot CLI, they use whatever model the user has selected for their session — set via the `--model` flag at launch or the `/model` command during a session.
+
+### Available Models in Copilot CLI
+
+Copilot CLI supports **17 models** across three providers:
+
+| Provider | Models |
+| -------- | ------ |
+| Claude   | `claude-haiku-4.5`, `claude-opus-4.5`, `claude-opus-4.6`, `claude-opus-4.6-fast`, `claude-sonnet-4`, `claude-sonnet-4.5`, `claude-sonnet-4.6` |
+| GPT      | `gpt-4.1`, `gpt-5-mini`, `gpt-5.1`, `gpt-5.1-codex`, `gpt-5.1-codex-max`, `gpt-5.1-codex-mini`, `gpt-5.2`, `gpt-5.2-codex`, `gpt-5.3-codex` |
+| Gemini   | `gemini-3-pro-preview` |
+
 ### Model Distribution Summary
 
 | Model  | Agent Count | Use Case                                                        |
@@ -320,6 +343,16 @@ Haiku: Setup observability stack
 
 ## Agent Invocation
 
+### Copilot CLI
+
+In GitHub Copilot CLI, agents use the `.agent.md` file extension and can be invoked directly with the `--agent` flag:
+
+```bash
+copilot --agent=backend-architect "design the authentication API"
+copilot --agent=security-auditor "scan for OWASP vulnerabilities"
+copilot --agent=performance-engineer --model=claude-opus-4.6 "optimize this database query"
+```
+
 ### Natural Language
 
 Agents can be invoked through natural language when you need Claude to reason about which specialist to use:
@@ -330,7 +363,7 @@ Agents can be invoked through natural language when you need Claude to reason ab
 "Get performance-engineer to optimize this database query"
 ```
 
-### Slash Commands
+### Slash Commands (Claude Code)
 
 Many agents are accessible through plugin slash commands for direct invocation:
 
@@ -344,9 +377,11 @@ Many agents are accessible through plugin slash commands for direct invocation:
 
 To add a new agent:
 
-1. Create `plugins/{plugin-name}/agents/{agent-name}.md`
+1. Create `plugins/{plugin-name}/agents/{agent-name}.md` (or `{agent-name}.agent.md` for Copilot CLI compatibility)
 2. Add frontmatter with name, description, and model assignment
 3. Write comprehensive system prompt
 4. Update plugin definition in `.claude-plugin/marketplace.json`
+
+> **Note:** Copilot CLI discovers agents by the `.agent.md` extension. If you need to support both Claude Code and Copilot CLI, you can use the `.agent.md` extension — it works with both platforms.
 
 See [Contributing Guide](../CONTRIBUTING.md) for details.

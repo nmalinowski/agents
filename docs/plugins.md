@@ -2,6 +2,8 @@
 
 Browse all **71 focused, single-purpose plugins** organized by category.
 
+> **Cross-compatible:** These plugins work with both **Claude Code** and **GitHub Copilot CLI**. Installation commands differ by tool, but the plugin format is the same.
+
 ## Quick Start - Essential Plugins
 
 > 💡 **Getting Started?** Install these popular plugins for immediate productivity gains.
@@ -11,7 +13,11 @@ Browse all **71 focused, single-purpose plugins** organized by category.
 **code-documentation** - Documentation and technical writing
 
 ```bash
+# Claude Code
 /plugin install code-documentation
+
+# Copilot CLI
+copilot plugin install code-documentation@wshobson-agents
 ```
 
 Automated doc generation, code explanation, and tutorial creation for comprehensive technical documentation.
@@ -19,7 +25,11 @@ Automated doc generation, code explanation, and tutorial creation for comprehens
 **debugging-toolkit** - Smart debugging and developer experience
 
 ```bash
+# Claude Code
 /plugin install debugging-toolkit
+
+# Copilot CLI
+copilot plugin install debugging-toolkit@wshobson-agents
 ```
 
 Interactive debugging, error analysis, and DX optimization for faster problem resolution.
@@ -27,7 +37,11 @@ Interactive debugging, error analysis, and DX optimization for faster problem re
 **git-pr-workflows** - Git automation and PR enhancement
 
 ```bash
+# Claude Code
 /plugin install git-pr-workflows
+
+# Copilot CLI
+copilot plugin install git-pr-workflows@wshobson-agents
 ```
 
 Git workflow automation, pull request enhancement, and team onboarding processes.
@@ -37,7 +51,11 @@ Git workflow automation, pull request enhancement, and team onboarding processes
 **backend-development** - Backend API design and architecture
 
 ```bash
+# Claude Code
 /plugin install backend-development
+
+# Copilot CLI
+copilot plugin install backend-development@wshobson-agents
 ```
 
 RESTful and GraphQL API design with test-driven development and modern backend architecture patterns.
@@ -45,7 +63,11 @@ RESTful and GraphQL API design with test-driven development and modern backend a
 **frontend-mobile-development** - UI and mobile development
 
 ```bash
+# Claude Code
 /plugin install frontend-mobile-development
+
+# Copilot CLI
+copilot plugin install frontend-mobile-development@wshobson-agents
 ```
 
 React/React Native component development with automated scaffolding and cross-platform implementation.
@@ -53,7 +75,11 @@ React/React Native component development with automated scaffolding and cross-pl
 **full-stack-orchestration** - End-to-end feature development
 
 ```bash
+# Claude Code
 /plugin install full-stack-orchestration
+
+# Copilot CLI
+copilot plugin install full-stack-orchestration@wshobson-agents
 ```
 
 Multi-agent coordination from backend → frontend → testing → security → deployment.
@@ -63,7 +89,11 @@ Multi-agent coordination from backend → frontend → testing → security → 
 **unit-testing** - Automated test generation
 
 ```bash
+# Claude Code
 /plugin install unit-testing
+
+# Copilot CLI
+copilot plugin install unit-testing@wshobson-agents
 ```
 
 Generate pytest (Python) and Jest (JavaScript) unit tests automatically with comprehensive edge case coverage.
@@ -73,7 +103,11 @@ Generate pytest (Python) and Jest (JavaScript) unit tests automatically with com
 **cloud-infrastructure** - Cloud architecture design
 
 ```bash
+# Claude Code
 /plugin install cloud-infrastructure
+
+# Copilot CLI
+copilot plugin install cloud-infrastructure@wshobson-agents
 ```
 
 AWS/Azure/GCP architecture, Kubernetes setup, Terraform IaC, and multi-cloud cost optimization.
@@ -81,7 +115,11 @@ AWS/Azure/GCP architecture, Kubernetes setup, Terraform IaC, and multi-cloud cos
 **incident-response** - Production incident management
 
 ```bash
+# Claude Code
 /plugin install incident-response
+
+# Copilot CLI
+copilot plugin install incident-response@wshobson-agents
 ```
 
 Rapid incident triage, root cause analysis, and automated resolution workflows for production systems.
@@ -91,7 +129,11 @@ Rapid incident triage, root cause analysis, and automated resolution workflows f
 **python-development** - Python project scaffolding
 
 ```bash
+# Claude Code
 /plugin install python-development
+
+# Copilot CLI
+copilot plugin install python-development@wshobson-agents
 ```
 
 FastAPI/Django project initialization with modern tooling (uv, ruff) and production-ready architecture.
@@ -99,7 +141,11 @@ FastAPI/Django project initialization with modern tooling (uv, ruff) and product
 **javascript-typescript** - JavaScript/TypeScript scaffolding
 
 ```bash
+# Claude Code
 /plugin install javascript-typescript
+
+# Copilot CLI
+copilot plugin install javascript-typescript@wshobson-agents
 ```
 
 Next.js, React + Vite, and Node.js project setup with pnpm and TypeScript best practices.
@@ -293,18 +339,20 @@ Next.js, React + Vite, and Node.js project setup with pnpm and TypeScript best p
 
 Each plugin contains:
 
-- **agents/** - Specialized agents for that domain
+- **agents/** - Specialized agents for that domain (`.agent.md` files)
 - **commands/** - Tools and workflows specific to that plugin
 - **skills/** - Optional modular knowledge packages (progressive disclosure)
+- **plugin.json** - Plugin manifest with component path fields (`agents`, `skills`, `commands`)
 
 Example:
 
 ```
 plugins/python-development/
+├── plugin.json
 ├── agents/
-│   ├── python-pro.md
-│   ├── django-pro.md
-│   └── fastapi-pro.md
+│   ├── python-pro.agent.md
+│   ├── django-pro.agent.md
+│   └── fastapi-pro.agent.md
 ├── commands/
 │   └── python-scaffold.md
 └── skills/
@@ -317,7 +365,9 @@ plugins/python-development/
 
 ## Installation
 
-### Step 1: Add the Marketplace
+### Claude Code
+
+#### Step 1: Add the Marketplace
 
 ```bash
 /plugin marketplace add wshobson/agents
@@ -325,7 +375,7 @@ plugins/python-development/
 
 This makes all 67 plugins available for installation, but **does not load any agents or tools** into your context.
 
-### Step 2: Install Specific Plugins
+#### Step 2: Install Specific Plugins
 
 Browse available plugins:
 
@@ -341,6 +391,36 @@ Install only the plugins you need:
 ```
 
 Each installed plugin loads **only its specific agents and commands** into Claude's context.
+
+### GitHub Copilot CLI
+
+#### Step 1: Add the Marketplace
+
+```bash
+copilot plugin marketplace add wshobson/agents
+```
+
+#### Step 2: Browse Available Plugins
+
+```bash
+copilot plugin marketplace browse wshobson-agents
+```
+
+#### Step 3: Install Specific Plugins
+
+Install from the marketplace:
+
+```bash
+copilot plugin install python-development@wshobson-agents
+copilot plugin install backend-development@wshobson-agents
+```
+
+Or install directly from the repository subdirectory:
+
+```bash
+copilot plugin install wshobson/agents:plugins/python-development
+copilot plugin install wshobson/agents:plugins/backend-development
+```
 
 ## Plugin Design Principles
 

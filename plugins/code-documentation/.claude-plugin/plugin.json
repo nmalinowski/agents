@@ -6,5 +6,7 @@
     "name": "Seth Hobson",
     "email": "seth@major7apps.com"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "agents": "agents/",
+  "commands": "commands/"
 }

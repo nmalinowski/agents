@@ -81,13 +81,16 @@ This marketplace follows industry best practices with a focus on granularity, co
 ```
 claude-agents/
 ├── .claude-plugin/
-│   └── marketplace.json          # Marketplace catalog (67 plugins)
+│   └── marketplace.json          # Marketplace catalog - Claude Code (backward compat)
+├── .github/
+│   └── plugin/
+│       └── marketplace.json      # Marketplace catalog - Copilot CLI
 ├── plugins/                       # Isolated plugin directories
 │   ├── python-development/
 │   │   ├── agents/               # Python language agents
-│   │   │   ├── python-pro.md
-│   │   │   ├── django-pro.md
-│   │   │   └── fastapi-pro.md
+│   │   │   ├── python-pro.agent.md
+│   │   │   ├── django-pro.agent.md
+│   │   │   └── fastapi-pro.agent.md
 │   │   ├── commands/             # Python tooling
 │   │   │   └── python-scaffold.md
 │   │   └── skills/               # Python skills (5 total)
@@ -98,9 +101,9 @@ claude-agents/
 │   │       └── uv-package-manager/
 │   ├── backend-development/
 │   │   ├── agents/
-│   │   │   ├── backend-architect.md
-│   │   │   ├── graphql-architect.md
-│   │   │   └── tdd-orchestrator.md
+│   │   │   ├── backend-architect.agent.md
+│   │   │   ├── graphql-architect.agent.md
+│   │   │   └── tdd-orchestrator.agent.md
 │   │   ├── commands/
 │   │   │   └── feature-development.md
 │   │   └── skills/               # Backend skills (3 total)
@@ -109,7 +112,7 @@ claude-agents/
 │   │       └── microservices-patterns/
 │   ├── security-scanning/
 │   │   ├── agents/
-│   │   │   └── security-auditor.md
+│   │   │   └── security-auditor.agent.md
 │   │   ├── commands/
 │   │   │   ├── security-hardening.md
 │   │   │   ├── security-sast.md
@@ -118,10 +121,10 @@ claude-agents/
 │   │       └── sast-configuration/
 │   ├── c4-architecture/
 │   │   ├── agents/               # C4 architecture agents
-│   │   │   ├── c4-code.md
-│   │   │   ├── c4-component.md
-│   │   │   ├── c4-container.md
-│   │   │   └── c4-context.md
+│   │   │   ├── c4-code.agent.md
+│   │   │   ├── c4-component.agent.md
+│   │   │   ├── c4-container.agent.md
+│   │   │   └── c4-context.agent.md
 │   │   └── commands/
 │   │       └── c4-architecture.md
 │   └── ... (62 more isolated plugins)
@@ -134,11 +137,20 @@ claude-agents/
 └── README.md                      # Quick start
 ```
 
+## Dual-Compatibility Architecture
+
+This repository supports both **Claude Code** and **GitHub Copilot CLI** as agent hosts:
+
+- **`.claude-plugin/marketplace.json`** — Original catalog location for Claude Code (maintained for backward compatibility)
+- **`.github/plugin/marketplace.json`** — Catalog location for Copilot CLI discovery
+- Both files share the same schema; `plugin.json` includes explicit component path fields (`agents`, `skills`, `commands`) so each host can resolve plugin contents unambiguously
+- Agent files use the `.agent.md` extension (e.g., `python-pro.agent.md`) to distinguish them from plain documentation Markdown
+
 ## Plugin Structure
 
 Each plugin contains:
 
-- **agents/** - Specialized agents for that domain (optional)
+- **agents/** - Specialized agents for that domain, using `.agent.md` extension (optional)
 - **commands/** - Tools and workflows specific to that plugin (optional)
 - **skills/** - Modular knowledge packages with progressive disclosure (optional)
 
@@ -154,14 +166,14 @@ Each plugin contains:
 ```
 plugins/kubernetes-operations/
 ├── agents/
-│   └── kubernetes-architect.md   # K8s architecture and design
+│   └── kubernetes-architect.agent.md   # K8s architecture and design
 ├── commands/
-│   └── k8s-deploy.md            # Deployment automation
+│   └── k8s-deploy.md                  # Deployment automation
 └── skills/
-    ├── k8s-manifest-generator/   # Manifest creation skill
-    ├── helm-chart-scaffolding/   # Helm chart skill
-    ├── gitops-workflow/          # GitOps automation skill
-    └── k8s-security-policies/    # Security policy skill
+    ├── k8s-manifest-generator/         # Manifest creation skill
+    ├── helm-chart-scaffolding/         # Helm chart skill
+    ├── gitops-workflow/                # GitOps automation skill
+    └── k8s-security-policies/          # Security policy skill
 ```
 
 ## Agent Skills Architecture
@@ -207,6 +219,11 @@ The system uses Claude Opus and Sonnet models strategically:
 | Opus   | 42 agents | Critical architecture, security, code review |
 | Sonnet | 39 agents | Complex tasks, support with intelligence     |
 | Haiku  | 18 agents | Fast operational tasks                       |
+
+> **Model field convention:** Agent frontmatter uses full Copilot CLI model names
+> (e.g., `claude-opus-4.6`, `claude-sonnet-4.5`, `claude-haiku-4.5`) instead of
+> short aliases like `opus` or `sonnet`. This ensures compatibility with both
+> Claude Code and GitHub Copilot CLI.
 
 ### Selection Criteria
 
@@ -343,7 +360,7 @@ Feature Development Workflow:
 
 ### Marketplace Updates
 
-- Marketplace catalog in `.claude-plugin/marketplace.json`
+- Marketplace catalog in `.claude-plugin/marketplace.json` and `.github/plugin/marketplace.json`
 - Semantic versioning for plugins
 - Backward compatibility maintained
 - Clear migration guides for breaking changes
@@ -367,7 +384,7 @@ Feature Development Workflow:
 
 ### Adding an Agent
 
-1. Create `plugins/{plugin-name}/agents/{agent-name}.md`
+1. Create `plugins/{plugin-name}/agents/{agent-name}.agent.md`
 2. Add frontmatter (name, description, model)
 3. Write comprehensive system prompt
 4. Update plugin definition

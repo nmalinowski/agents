@@ -7,7 +7,9 @@ Complete guide to using agents, slash commands, and multi-agent workflows.
 The plugin ecosystem provides two primary interfaces:
 
 1. **Slash Commands** - Direct invocation of tools and workflows
-2. **Natural Language** - Claude reasons about which agents to use
+2. **Natural Language** - The AI reasons about which agents to use
+
+Both **Claude Code** and **GitHub Copilot CLI** are supported. The sections below show equivalent commands for each.
 
 ## Slash Commands
 
@@ -16,6 +18,7 @@ Slash commands are the primary interface for working with agents and workflows. 
 ### Command Format
 
 ```bash
+# Claude Code
 /plugin-name:command-name [arguments]
 ```
 
@@ -24,8 +27,27 @@ Slash commands are the primary interface for working with agents and workflows. 
 List all available slash commands from installed plugins:
 
 ```bash
+# Claude Code
 /plugin
+
+# Copilot CLI
+/plugin          # manage plugins
+/skills          # manage skills
+/skills list     # list available skills
 ```
+
+### Copilot CLI Slash Commands
+
+GitHub Copilot CLI provides built-in slash commands for agent and workflow management:
+
+| Command        | Description                                      |
+| -------------- | ------------------------------------------------ |
+| `/agent`       | Browse and select from available agents          |
+| `/skills`      | Manage skills                                    |
+| `/skills list` | List available skills                            |
+| `/plugin`      | Manage plugins                                   |
+| `/model`       | Select AI model (17 models available)            |
+| `/fleet`       | Enable fleet mode for parallel subagent execution |
 
 ### Benefits of Slash Commands
 
@@ -36,7 +58,7 @@ List all available slash commands from installed plugins:
 
 ## Natural Language
 
-Agents can also be invoked through natural language when you need Claude to reason about which specialist to use:
+Agents can also be invoked through natural language when you need the AI to reason about which specialist to use:
 
 ```
 "Use backend-architect to design the authentication API"
@@ -45,6 +67,33 @@ Agents can also be invoked through natural language when you need Claude to reas
 ```
 
 Claude Code automatically selects and coordinates the appropriate agents based on your request.
+
+### Agent Invocation in Copilot CLI
+
+Copilot CLI provides multiple ways to invoke agents:
+
+```bash
+# Select interactively via slash command
+/agent
+
+# Reference an agent in your prompt
+"Use the python-pro agent to refactor this module"
+
+# Specify on the command line
+copilot --agent=python-pro
+```
+
+### Model Selection in Copilot CLI
+
+Copilot CLI supports 17 models. You can select a model at startup or switch during a session:
+
+```bash
+# Start with a specific model
+copilot --model gpt-5.2-codex
+
+# Change model during a session
+/model
+```
 
 ## Command Reference by Category
 

@@ -6,5 +6,6 @@
     "name": "Ryan Snodgrass",
     "url": "https://github.com/rsnodgrass"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "agents": "agents/"
 }
